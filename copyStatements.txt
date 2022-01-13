@@ -4,6 +4,18 @@ DELIMITER ','
 CSV HEADER;
 
 COPY products(id, name)
-FROM '/Users/neilmosser/Desktop/SDCData/product.csv'
+FROM '/Users/neilmosser/Desktop/SDCData/productParsed.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY questions(id, product_id, question_body, question_date,
+asker_name, asker_email, reported, question_helpfulness)
+FROM '/Users/neilmosser/Desktop/SDCData/questions.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY answers(id, question_id, body, date,
+answerer_name, answerer_email, reported, helpfulness)
+FROM '/Users/neilmosser/Desktop/SDCData/answers.csv'
 DELIMITER ','
 CSV HEADER;
