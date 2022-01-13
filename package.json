@@ -1,0 +1,23 @@
+{
+  "name": "sdc-neilmosser",
+  "version": "1.0.0",
+  "description": "Hack Reactor System Design Capstone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DEN16-SDC-Mewtwo/SDC-NeilMosser.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DEN16-SDC-Mewtwo/SDC-NeilMosser/issues"
+  },
+  "homepage": "https://github.com/DEN16-SDC-Mewtwo/SDC-NeilMosser#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "express": "^4.17.2"
+  }
+}
