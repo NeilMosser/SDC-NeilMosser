@@ -1,7 +1,7 @@
 -- create the db
 DROP DATABASE IF EXISTS qadb;
 CREATE DATABASE qadb;
--- SELECT qadb;
+SELECT qadb;
 
 
 
