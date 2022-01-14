@@ -1,19 +1,21 @@
 -- create the db
+
 DROP DATABASE IF EXISTS qadb;
 CREATE DATABASE qadb;
-SELECT qadb;
+\c qadb;
 
 
 
--- DROP SCHEMA IF EXISTS qa CASCADE;
--- CREATE SCHEMA qa;
+DROP SCHEMA IF EXISTS qa CASCADE;
+CREATE SCHEMA qa;
+SET search_path TO qa;
 DROP TABLE IF EXISTS products, questions, answers, photos;
 
 -- product table
-CREATE TABLE products (
-  id INTEGER NOT NULL PRIMARY KEY,
-  name VARCHAR(255) NOT NULL
-);
+-- CREATE TABLE products (
+--   id INTEGER NOT NULL PRIMARY KEY,
+--   name VARCHAR(255) NOT NULL
+-- );
 
 -- questions table
 CREATE TABLE questions (
@@ -26,8 +28,8 @@ CREATE TABLE questions (
   reported BOOLEAN NOT NULL,
   question_helpfulness INT NOT NULL
   -- CONSTRAINT fk_products
-  --   FOREIGN KEY(product_id)
-  --     REFERENCES products(id)
+    -- FOREIGN KEY(product_id)
+      --   REFERENCES products(id)
 );
 
 -- answers table
@@ -39,21 +41,42 @@ CREATE TABLE answers (
   answerer_name VARCHAR(255) NOT NULL,
   answerer_email VARCHAR(255) NOT NULL,
   reported INT NOT NULL,
-  helpfulness INT NOT NULL
+  helpfulness INT NOT NULL,
   -- CONSTRAINT fk_questions
-  --   FOREIGN KEY(question_id)
-  --     REFERENCES questions(id)
+    FOREIGN KEY(question_id)
+      REFERENCES questions(id)
 );
 
 -- photos table
 CREATE TABLE photos(
   id INT PRIMARY KEY,
   answer_id INT NOT NULL,
-  url VARCHAR(255) NOT NULL
+  url VARCHAR(255) NOT NULL,
   -- CONSTRAINT fk_answers
-  --   FOREIGN KEY(answer_id)
-  --     REFERENCES answers(id)
+    FOREIGN KEY(answer_id)
+      REFERENCES answers(id)
 );
 
+-- COPY products(id, name)
+-- FROM '/Users/neilmosser/Desktop/SDCData/productParsed.csv'
+-- DELIMITER ','
+-- CSV HEADER;
 
--- need to figure out how to install and run postgres to check
+COPY questions(id, product_id, question_body, question_date,
+asker_name, asker_email, reported, question_helpfulness)
+FROM '/Users/neilmosser/Desktop/SDCData/questions.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY answers(id, question_id, body, date,
+answerer_name, answerer_email, reported, helpfulness)
+FROM '/Users/neilmosser/Desktop/SDCData/answers.csv'
+DELIMITER ','
+CSV HEADER;
+
+COPY photos(id, answer_id, url)
+FROM '/Users/neilmosser/Desktop/SDCData/answers_photos.csv'
+DELIMITER ','
+CSV HEADER;
+
+
