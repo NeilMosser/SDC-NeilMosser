@@ -5,8 +5,8 @@ CREATE DATABASE qadb;
 
 
 
-DROP SCHEMA IF EXISTS qa CASCADE;
-CREATE SCHEMA qa;
+-- DROP SCHEMA IF EXISTS qa CASCADE;
+-- CREATE SCHEMA qa;
 DROP TABLE IF EXISTS products, questions, answers, photos;
 
 -- product table
