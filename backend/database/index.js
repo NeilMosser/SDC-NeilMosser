@@ -1,7 +1,7 @@
 var pg = require('pg');
-var { Client } = require('pg');
+var { Client, Pool } = require('pg');
 
-const client = new Client({
+const client = new Pool({
   user: "postgres",
   host: 'localhost',
   database: 'qadb',

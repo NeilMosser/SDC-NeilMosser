@@ -16,9 +16,9 @@ app.use(express.json());
 app.get('/qa/questions', (req, res) => {
   console.log('Made it into GET request for questions');
   let returnObj = {};
-  let {product_id, page, count} = req.query;
-  client.query(`SELECT * from qa.questions where product_id=${product_id};`, (err, data) => {
-    console.log(data.rows);
+  let {product_id, page = 1, count = 5} = req.query;
+  client.query(`SELECT * from qa.questions where product_id=${product_id}`, (err, data) => {
+    console.log(data);
     if(err) {
       res.status(500).send('Error in GET request');
       console.log(err);
@@ -31,8 +31,8 @@ app.get('/qa/questions', (req, res) => {
 
 app.get('/qa/questions/:question_id/answers', (req, res) => {
   console.log('Made it into GET request for answers');
-  let {question_id} = req.query;
-  client.query(`SELECT * from qa.answers where question_id=${question_id};`, (err, data) => {
+  let {question_id, page = 1, count = 5} = req.query;
+  client.query(`SELECT * from qa.answers where question_id=${question_id} LIMIT ${count};`, (err, data) => {
     if(err) {
       res.status(500).send('Error in GET request');
       console.log(err);
