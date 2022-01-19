@@ -68,7 +68,8 @@ app.post('/qa/questions', (req, res) => {
 
 app.post('/qa/questions/:question_id/answers', (req, res) => {
   console.log('Made it into GET request for questions');
-  client.query(`SELECT * from qa.questions where id=1;`, (err, data) => {
+  client.query(`INSERT INTO questions (question_id, body, date, answerer_name, answerer_email, reported, helpfulness)
+  VALUES (?, ?, ?, ?, ?, ?, ?)`, (err, data) => {
     if(err) {
       res.status(500).send('Error in GET request');
       console.log(err);
@@ -79,57 +80,63 @@ app.post('/qa/questions/:question_id/answers', (req, res) => {
   })
 });
 
-// app.put('/qa/questions/:question_id/helpful', (req, res) => {
-//   console.log('Made it into GET request for questions');
-//   client.query(`SELECT * from qa.questions where id=1;`, (err, data) => {
-//     if(err) {
-//       res.status(500).send('Error in GET request');
-//       console.log(err);
-//     } else {
-//     console.log('SUCCESSFUL GET request');
-//     res.status(200).send(data.rows);
-//     }
-//   })
-// });
+app.put('/qa/questions/:question_id/helpful', (req, res) => {
+  console.log('Made it into GET request for questions');
+  let {questionID} = req.params;
+  client.query(`UPDATE qa.questions SET question_helpfulness =
+  question_helpfulness + 1 WHERE id=${questionID};`, (err, data) => {
+    if(err) {
+      res.status(500).send('Error in GET request');
+      console.log(err);
+    } else {
+    console.log('SUCCESSFUL PUT request - question helpful');
 
-// app.put('/qa/questions/:question_id/report', (req, res) => {
-//   console.log('Made it into GET request for questions');
-//   client.query(`SELECT * from qa.questions where id=1;`, (err, data) => {
-//     if(err) {
-//       res.status(500).send('Error in GET request');
-//       console.log(err);
-//     } else {
-//     console.log('SUCCESSFUL GET request');
-//     res.status(200).send(data.rows);
-//     }
-//   })
-// });
+    }
+  })
+});
 
-// app.put('/qa/answers/:answer_id/helpful', (req, res) => {
-//   console.log('Made it into GET request for questions');
-//   client.query(`SELECT * from qa.questions where id=1;`, (err, data) => {
-//     if(err) {
-//       res.status(500).send('Error in GET request');
-//       console.log(err);
-//     } else {
-//     console.log('SUCCESSFUL GET request');
-//     res.status(200).send(data.rows);
-//     }
-//   })
-// });
+app.put('/qa/questions/:question_id/report', (req, res) => {
+  console.log('Made it into GET request for questions');
+  let {questionID} = req.params;
+  client.query(`UPDATE qa.questions SET reported = true WHERE id=${questionID};`, (err, data) => {
+    if(err) {
+      res.status(500).send('Error in GET request');
+      console.log(err);
+    } else {
+    console.log('SUCCESSFUL GET request');
+    res.status(200).send(data.rows);
+    }
+  })
+});
 
-// app.put('/qa/answers/:answer_id/report', (req, res) => {
-//   console.log('Made it into GET request for questions');
-//   client.query(`SELECT * from qa.questions where id=1;`, (err, data) => {
-//     if(err) {
-//       res.status(500).send('Error in GET request');
-//       console.log(err);
-//     } else {
-//     console.log('SUCCESSFUL GET request');
-//     res.status(200).send(data.rows);
-//     }
-//   })
-// });
+app.put('/qa/answers/:answer_id/helpful', (req, res) => {
+  console.log('Made it into GET request for questions');
+  let {answer_id} = req.params;
+  client.query(`UPDATE qa.answers SET helpfulness = helpfulness + 1 WHERE id=${answer_id};`, (err, data) => {
+    if(err) {
+      res.status(500).send('Error in GET request');
+      console.log(err);
+    } else {
+    console.log('SUCCESSFUL GET request');
+    res.status(200).send(data.rows);
+    }
+  })
+});
+
+app.put('/qa/answers/:answer_id/report', (req, res) => {
+  console.log('Made it into GET request for questions');
+  let {answer_id} = req.params;
+  client.query(`UPDATE qa.answers SET reported = 1 WHERE
+  id=${answer_id};`, (err, data) => {
+    if(err) {
+      res.status(500).send('Error in GET request');
+      console.log(err);
+    } else {
+    console.log('SUCCESSFUL GET request');
+    res.status(200).send(data.rows);
+    }
+  })
+});
 
 
 
