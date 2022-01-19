@@ -19,7 +19,7 @@ DROP TABLE IF EXISTS products, questions, answers, photos;
 
 -- questions table
 CREATE TABLE questions (
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   product_id INT NOT NULL ,
   question_body VARCHAR(255) NOT NULL,
   question_date VARCHAR(255) NOT NULL,
@@ -34,7 +34,7 @@ CREATE TABLE questions (
 
 -- answers table
 CREATE TABLE answers (
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   question_id INT NOT NULL,
   body VARCHAR(255) NOT NULL,
   date VARCHAR(255) NOT NULL,
@@ -49,7 +49,7 @@ CREATE TABLE answers (
 
 -- photos table
 CREATE TABLE photos(
-  id INT PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   answer_id INT NOT NULL,
   url VARCHAR(255) NOT NULL,
   -- CONSTRAINT fk_answers

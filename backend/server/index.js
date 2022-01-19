@@ -13,11 +13,15 @@ app.use(express.json());
 //   res.sendFile(path.join(__dirname, "dist", "index.html"));
 // });
 
+
 app.get('/qa/questions', (req, res) => {
   console.log('Made it into GET request for questions');
-  let returnObj = {};
+  // let returnObj = {};
+
   let {product_id, page = 1, count = 5} = req.query;
-  client.query(`SELECT * from qa.questions where product_id=${product_id}`, (err, data) => {
+  let questionQuery = `SELECT * from qa.questions where product_id=${product_id} LIMIT ${count};`;
+  //questionQuery = `SELECT JSON_ARRAYAGG(JSON_OBJECT(product_id, product_id, question_body, question_body)) from qa.questions where product_id=1`;
+  client.query(questionQuery, (err, data) => {
     console.log(data);
     if(err) {
       res.status(500).send('Error in GET request');
@@ -29,10 +33,12 @@ app.get('/qa/questions', (req, res) => {
   })
 });
 
-app.get('/qa/questions/:question_id/answers', (req, res) => {
+app.get(`/qa/questions/:questionID/answers`, (req, res) => {
   console.log('Made it into GET request for answers');
-  let {question_id, page = 1, count = 5} = req.query;
-  client.query(`SELECT * from qa.answers where question_id=${question_id} LIMIT ${count};`, (err, data) => {
+  console.log(req.body);
+  let {questionID} = req.params;
+  let {page = 1, count = 5} = req.body;
+  client.query(`SELECT * from qa.answers where question_id=${questionID} LIMIT ${count};`, (err, data) => {
     if(err) {
       res.status(500).send('Error in GET request');
       console.log(err);
@@ -43,31 +49,35 @@ app.get('/qa/questions/:question_id/answers', (req, res) => {
   })
 });
 
-// app.post('/qa/questions', (req, res) => {
-//   console.log('Made it into GET request for questions');
-//   client.query(`SELECT * from qa.questions where id=1;`, (err, data) => {
-//     if(err) {
-//       res.status(500).send('Error in GET request');
-//       console.log(err);
-//     } else {
-//     console.log('SUCCESSFUL GET request');
-//     res.status(200).send(data.rows);
-//     }
-//   })
-// });
+app.post('/qa/questions', (req, res) => {
+  console.log('Made it into POST request for questions');
+  console.log(req);
+  const {body, name, email, product_id} = req.body;
+  client.query(`INSERT INTO questions (product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness)
+                VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                [product_id, body, Date.now(), name, email, "f", 0], (err, data) => {
+    if(err) {
+      res.status(500).send('Error in POST request');
+      console.log(err);
+    } else {
+    console.log('SUCCESSFUL POST request');
+    res.status(200).send(data.rows);
+    }
+  })
+});
 
-// app.post('/qa/questions/:question_id/answers', (req, res) => {
-//   console.log('Made it into GET request for questions');
-//   client.query(`SELECT * from qa.questions where id=1;`, (err, data) => {
-//     if(err) {
-//       res.status(500).send('Error in GET request');
-//       console.log(err);
-//     } else {
-//     console.log('SUCCESSFUL GET request');
-//     res.status(200).send(data.rows);
-//     }
-//   })
-// });
+app.post('/qa/questions/:question_id/answers', (req, res) => {
+  console.log('Made it into GET request for questions');
+  client.query(`SELECT * from qa.questions where id=1;`, (err, data) => {
+    if(err) {
+      res.status(500).send('Error in GET request');
+      console.log(err);
+    } else {
+    console.log('SUCCESSFUL GET request');
+    res.status(200).send(data.rows);
+    }
+  })
+});
 
 // app.put('/qa/questions/:question_id/helpful', (req, res) => {
 //   console.log('Made it into GET request for questions');
