@@ -54,7 +54,7 @@ app.post('/qa/questions', (req, res) => {
   console.log(req);
   const {body, name, email, product_id} = req.body;
   client.query(`INSERT INTO questions (product_id, question_body, question_date, asker_name, asker_email, reported, question_helpfulness)
-                VALUES (?, ?, ?, ?, ?, ?, ?)`,
+                VALUES ($1, $2, $3, $4, $5, $6, $7)`,
                 [product_id, body, Date.now(), name, email, "f", 0], (err, data) => {
     if(err) {
       res.status(500).send('Error in POST request');
@@ -69,7 +69,7 @@ app.post('/qa/questions', (req, res) => {
 app.post('/qa/questions/:question_id/answers', (req, res) => {
   console.log('Made it into GET request for questions');
   client.query(`INSERT INTO questions (question_id, body, date, answerer_name, answerer_email, reported, helpfulness)
-  VALUES (?, ?, ?, ?, ?, ?, ?)`, (err, data) => {
+  VALUES ($1, $2, $3, $4, $5, $6, $7)`, (err, data) => {
     if(err) {
       res.status(500).send('Error in GET request');
       console.log(err);
