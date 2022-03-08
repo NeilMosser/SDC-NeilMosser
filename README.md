@@ -16,16 +16,16 @@ First install node/npm by following the links in the Prerequisites section above
 
 To make sure you have the same version of node installed (v14.18.0) that was used in this project, run the following command
 
-'node -v'
+>'node -v'
 Next, install all the dependencies included in package.json by running the following command
 
-'npm install'
+>'npm install'
 Next, run the folliwing command to run webpack and transpile the .jsx code
 
-'psql postgres'
+>'psql postgres'
 Run the postgres database using this command
 
-'psql -U username -d qadb -a -f myInsertFile'
+>'psql -U username -d qadb -a -f myInsertFile'
 Create the database by running the schema.sql file in the command line.  Replace the username (default is postgres). The file with the data is too large to upload to github, so reach out if you would like to populate the db!
 
 ## Deployment
