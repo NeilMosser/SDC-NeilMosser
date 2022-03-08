@@ -2,9 +2,9 @@
 
 The purpose of this project was to replace a system of API calls to get hardcoded data with a dynamic PostgreSQL database. Team Mewtwo was hired by the original website owners to do a complete overhaul of the database management system over a two-week time frame.
 
-##Getting Started
+## Getting Started
 
-##Prerequisites
+## Prerequisites
 
 Requirements for the software and other tools to build, test and push
 
